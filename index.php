@@ -26,6 +26,15 @@ printToHTML("Email is valid");
 
 
 /**
+ * Test if the current request has get parameters
+ * 
+ * @return bool
+ */
+function hasGetParameters(): bool {
+    return empty($_GET) ? false : true;
+}
+
+/**
  * Check if parameter a get param is present in the request
  *
  * @param string $key get param to check
@@ -33,7 +42,11 @@ printToHTML("Email is valid");
  */
 function hasGetParam(string $key): bool
 {
-    if (empty($_GET) || empty($_GET[$key])) {
+    if (!hasGetParameters()) {
+        return false;
+    }
+
+    if (empty($_GET[$key])) {
         return false;
     }
 
