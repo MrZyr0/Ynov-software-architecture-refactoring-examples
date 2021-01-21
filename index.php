@@ -1,8 +1,7 @@
 <?php 
-const EMAIL_PARAM_NAME = 'email';
 const SPAM_DOMAINS = ['spamming.com', 'mailinator.com', 'oneminutemail.com'];
 
-if (!hasEmailGetParam()) {
+if (!hasGetParam('email')) {
     echo "Please provide a valid email address";
     exit;
 }
@@ -10,34 +9,32 @@ if (!hasEmailGetParam()) {
 $email = $_GET['email'];
 
 if (!isValidEmail($email)) {
-    echo "Invalid email address";
-    exit;
+    printToHTML("Invalid email address");
 }
 
 $emailDomain = getDomainOfEmail($email);
 
 if (!$emailDomain) {
-    echo "Unable to extract domain from email address";
-    exit;
+    printToHTML("Unable to extract domain from email address");
 }
 
 
 if (isSpammingDomain($emailDomain)) {
-    echo "Email is spam";
-    exit;
+    printToHTML("Email is spam");
 }
 
-echo "Email is valid";
+printToHTML("Email is valid");
 
 
 /**
- * Check if parameter get 'email' is present in the request
+ * Check if parameter a get param is present in the request
  *
+ * @param string $key get param to check
  * @return bool
  */
-function hasEmailGetParam(): bool
+function hasGetParam(string $key): bool
 {
-    if (empty($_GET) || empty($_GET[EMAIL_PARAM_NAME])) {
+    if (empty($_GET) || empty($_GET[$key])) {
         return false;
     }
 
@@ -82,9 +79,15 @@ function getDomainOfEmail(string $email): string {
  * @return bool
  */
 function isSpammingDomain(string $domain): bool {
-    if (in_array($domain, SPAM_DOMAINS)) {
-        return true;
-    }
+    return in_array($domain, SPAM_DOMAINS);
+}
 
-    return false;
+/**
+ * Print string to html and exit
+ *
+ * @param string $data to print
+ */
+function printToHTML(string $data): void {
+    echo $data;
+    exit;
 }
