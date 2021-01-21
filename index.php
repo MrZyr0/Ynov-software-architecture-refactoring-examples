@@ -2,8 +2,7 @@
 const SPAM_DOMAINS = ['spamming.com', 'mailinator.com', 'oneminutemail.com'];
 
 if (!hasGetParam('email')) {
-    echo "Please provide a valid email address";
-    exit;
+    printToHTML("Please provide a valid email address");
 }
 
 $email = $_GET['email'];
