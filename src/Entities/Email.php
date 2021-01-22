@@ -6,30 +6,24 @@ namespace App\Entities;
 
 class Email
 {
+    /**
+     * @var string
+     */
     private string $user;
+    /**
+     * @var string
+     */
     private string $domain;
 
-    public function __construct($email)
-    {
-        $this->domain = $this->getDomainOfEmail($email);
-        $this->user = str_replace(['@', $this->domain], '', $email);
-    }
-
     /**
-     * Get email domain
-     *
-     * @param string $email
-     * @return string email domain. Empty string on error
+     * Email constructor.
+     * @param $user
+     * @param $domain
      */
-    private function getDomainOfEmail(string $email): string
+    public function __construct($user, $domain)
     {
-        $emailParts = explode('@', $email);
-
-        if ($emailParts === false || count($emailParts) !== 2) {
-            return '';
-        }
-
-        return $emailParts[1];
+        $this->user = $user;
+        $this->domain = $domain;
     }
 
     /**
@@ -76,7 +70,7 @@ class Email
      *
      * @return string email
      */
-    public function getEmail(): string
+    public function __toString(): string
     {
         return $this->user . '@' . $this->domain;
     }

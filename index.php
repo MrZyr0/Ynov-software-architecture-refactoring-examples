@@ -2,17 +2,16 @@
 
 require_once 'vendor/autoload.php';
 
-use App\Entities\Email;
+use App\Factories\EmailFactory;
 use App\Managers\EmailManager;
 use App\Managers\QueryManager;
 use App\Utils\HTMLPrinter;
-
 
 if (!QueryManager::isGetParamExist('email')) {
     HTMLPrinter::printToHTMLandExit("Please provide a valid email address");
 }
 
-$email = new Email($_GET['email']);
+$email = EmailFactory::createEmailFromFulEmail($_GET['email']);
 
 if (!EmailManager::isValidEmail($email)) {
     HTMLPrinter::printToHTMLandExit("Invalid email address");

@@ -19,7 +19,7 @@ abstract class EmailManager
      */
     public static function isValidEmail(Email $emailObj): bool
     {
-        if (!filter_var($emailObj->getEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($emailObj->__toString(), FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
