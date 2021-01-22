@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>\App\Utils\HTMLPrinter</OriginalElement>
+  <nodes>
+    <node x="0.0" y="398.0">\App\Utils\HTMLPrinter</node>
+    <node x="0.0" y="0.0">\App\Entities\Email</node>
+    <node x="0.0" y="254.0">\App\Managers\EmailManager</node>
+    <node x="247.0" y="257.0">\App\Managers\QueryManager</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="159.5" y="83.71428571428572" />
+  <SelectedNodes>
+    <node>\App\Managers\QueryManager</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constants</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
