@@ -1,105 +1,30 @@
-<?php 
-const SPAM_DOMAINS = ['spamming.com', 'mailinator.com', 'oneminutemail.com'];
+<?php
 
-if (!hasGetParam('email')) {
-    printToHTML("Please provide a valid email address");
+require_once 'vendor/autoload.php';
+
+use App\Entities\Email;
+use App\Managers\EmailManager;
+use App\Managers\QueryManager;
+use App\Utils\HTMLPrinter;
+
+
+if (!QueryManager::isGetParamExist('email')) {
+    HTMLPrinter::printToHTMLandExit("Please provide a valid email address");
 }
 
-$email = $_GET['email'];
+$email = new Email($_GET['email']);
 
-if (!isValidEmail($email)) {
-    printToHTML("Invalid email address");
+if (!EmailManager::isValidEmail($email)) {
+    HTMLPrinter::printToHTMLandExit("Invalid email address");
 }
 
-$emailDomain = getDomainOfEmail($email);
-
-if (!$emailDomain) {
-    printToHTML("Unable to extract domain from email address");
+if (!$email->getDomain()) {
+    HTMLPrinter::printToHTMLandExit("Unable to extract domain from email address");
 }
 
 
-if (isSpammingDomain($emailDomain)) {
-    printToHTML("Email is spam");
+if (EmailManager::isSpammingDomain($email->getDomain())) {
+    HTMLPrinter::printToHTMLandExit("Email is spam");
 }
 
-printToHTML("Email is valid");
-
-
-/**
- * Test if the current request has get parameters
- * 
- * @return bool
- */
-function hasGetParameters(): bool {
-    return empty($_GET) ? false : true;
-}
-
-/**
- * Check if parameter a get param is present in the request
- *
- * @param string $key get param to check
- * @return bool
- */
-function hasGetParam(string $key): bool
-{
-    if (!hasGetParameters()) {
-        return false;
-    }
-
-    if (empty($_GET[$key])) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Check if email is valid
- *
- * @param string $email
- * @return bool
- */
-function isValidEmail(string $email): bool
-{
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Get email domain
- *
- * @param string $email
- * @return string email domain. Empty string on error
- */
-function getDomainOfEmail(string $email): string {
-    $emailParts = explode('@', $email);
-
-    if ($emailParts === false || count($emailParts) !== 2) {
-        return '';
-    }
-
-    return $emailParts[1];
-}
-
-/**
- * Test if a domain is registered has spam blacklist
- *
- * @param string $domain
- * @return bool
- */
-function isSpammingDomain(string $domain): bool {
-    return in_array($domain, SPAM_DOMAINS);
-}
-
-/**
- * Print string to html and exit
- *
- * @param string $data to print
- */
-function printToHTML(string $data): void {
-    echo $data;
-    exit;
-}
+HTMLPrinter::printToHTMLandExit("Email is valid");
